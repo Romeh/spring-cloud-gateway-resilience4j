@@ -3,43 +3,58 @@ server:
 
 logging.pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include=gateway:
+
 spring:
   application:
     name: gateway-service
-  redis:
-    host: 192.168.99.100
-    port: 6379
   output.ansi.enabled: ALWAYS
   cloud:
     gateway:
       routes:
-      - id: account-service
-        uri: http://localhost:8091
-        predicates:
-        - Path=/account/**
-        filters:
-        - RewritePath=/account/(?<path>.*), /$\{path}
-        - name: RequestRateLimiter
-          args:
-            redis-rate-limiter.replenishRate: 10
-            redis-rate-limiter.burstCapacity: 20
-      - id: customer-service
-        uri: http://localhost:8092
-        predicates:
-        - Path=/customer/**
-        filters:
-        - RewritePath=/customer/(?<path>.*), /$\{path}
-      - id: order-service
-        uri: http://localhost:8090
-        predicates:
-        - Path=/order/**
-        filters:
-        - RewritePath=/order/(?<path>.*), /$\{path}
-      - id: product-service
-        uri: http://localhost:8093
-        predicates:
-        - Path=/product/**
-        filters:
-        - RewritePath=/product/(?<path>.*), /$\{path}
+        - id: test-service-withResilient4j
+          uri: http://localhost:8091
+          predicates:
+            - Path=/testService/**
+          filters:
+            - RewritePath=/testService/(?<path>.*), /$\{path}
 
-#logging.level.io.github.resilience4j: DEBUG
+logging.level.io.github.resilience4j: DEBUG
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 2s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+      ignoreExceptions:
+        - java.lang.IllegalStateException
+    shared:
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 30
+      waitDurationInOpenState: 1s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      ignoreExceptions:
+        - java.lang.IllegalStateException
+  instances:
+    backendA:
+      baseConfig: default
+    backendB:
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      waitDurationInOpenState: 1s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
