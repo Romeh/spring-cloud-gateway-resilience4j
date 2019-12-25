@@ -74,18 +74,18 @@ public class GatewayCircuitBreakerTest {
 		client.when(HttpRequest.request()
 				.withPath("/1"))
 				.respond(response()
-						.withBody("{\"msgCode\":\"1\",\"msg\":\"1234567890\"}")
+						.withBody("{\"msgCode\":\"1\",\"msg\":\"1000000\"}")
 						.withHeader("Content-Type", "application/json"));
 		client.when(HttpRequest.request()
 				.withPath("/2"), Times.exactly(5))
 				.respond(response()
-						.withBody("{\"msgCode\":\"2\",\"msg\":\"1234567891\"}")
+						.withBody("{\"msgCode\":\"2\",\"msg\":\"2000000\"}")
 						.withDelay(TimeUnit.MILLISECONDS, 200)
 						.withHeader("Content-Type", "application/json"));
 		client.when(HttpRequest.request()
 				.withPath("/2"))
 				.respond(response()
-						.withBody("{\"msgCode\":\"2\",\"msg\":\"1234567891\"}")
+						.withBody("{\"msgCode\":\"2\",\"msg\":\"2100000\"}")
 						.withHeader("Content-Type", "application/json"));
 	}
 
