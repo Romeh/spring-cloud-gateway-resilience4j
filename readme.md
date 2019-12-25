@@ -1,4 +1,4 @@
-# Spring Cloud Gateway with Resilient4j circuit breaker
+# Spring Cloud Gateway with Resilient4J circuit breaker
 
 In this project I'm showing how you can use spring cloud circuit-breaker starter for resilience4j with resilience4j spring boot starter so you can configure externally your circuitBreaker definitions
 in:  [Spring Cloud Gateway](https://cloud.spring.io/spring-cloud-gateway/reference/html/)
