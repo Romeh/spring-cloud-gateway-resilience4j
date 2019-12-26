@@ -6,7 +6,7 @@ in:  [Spring Cloud Gateway](https://cloud.spring.io/spring-cloud-gateway/referen
 ## Getting Started 
 
 Currently you may find here examples of: 
-1. Circuit Breaker and Fallback with [resilience4j](https://resilience4j.readme.io/docs/getting-started) - the detailed explanation is my on blog :
+1. Circuit Breaker and Fallback with [resilience4j](https://resilience4j.readme.io/docs/getting-started) - the detailed explanation is my on blog: https://mromeh.com/2019/12/26/spring-cloud-gateway-with-resilience4j-circuit-breaker/
 2. How to mock http service using mock server test containers for micro-services integration tests
 3. How to configure externally in spring config Resilience4j circuit breakers and integrate it with Spring cloud circuit breaker starter
 
