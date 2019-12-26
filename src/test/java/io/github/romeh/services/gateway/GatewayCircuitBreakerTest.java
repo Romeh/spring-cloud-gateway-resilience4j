@@ -91,7 +91,7 @@ public class GatewayCircuitBreakerTest {
 
 	@Test
 	@BenchmarkOptions(warmupRounds = 0, concurrency = 1, benchmarkRounds = 200)
-	public void testAccountService() {
+	public void testProtectedServiceBehindTheGateway() {
 		int generatedPathValue = 1 + (testPathSelector++ % 2);
 		ResponseEntity<FallbackResponse> r = template.exchange("/testService/{id}", HttpMethod.GET, null, FallbackResponse.class, generatedPathValue);
 		LOGGER.info("{}. Received: status->{}, payload->{}, call->{}", generatedPathValue, r.getStatusCodeValue(), r.getBody(), generatedPathValue);
