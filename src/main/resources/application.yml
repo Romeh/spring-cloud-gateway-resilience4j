@@ -60,3 +60,13 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 1s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+
+resilience4j.timelimiter:
+  time-limiter-aspect-order: 398
+  configs:
+    default:
+      timeoutDuration: 1s
+      cancelRunningFuture: false
+  instances:
+    backendB:
+      timeoutDuration: 250ms
