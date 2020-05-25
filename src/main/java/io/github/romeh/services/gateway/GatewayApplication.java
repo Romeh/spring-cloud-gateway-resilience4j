@@ -3,6 +3,7 @@ package io.github.romeh.services.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
@@ -20,5 +21,14 @@ public class GatewayApplication {
 		reactiveResilience4JCircuitBreakerFactory.configureCircuitBreakerRegistry(circuitBreakerRegistry);
 		return reactiveResilience4JCircuitBreakerFactory;
 	}
+
+	@Bean
+	public Resilience4JCircuitBreakerFactory resilience4JCircuitBreakerFactory(CircuitBreakerRegistry circuitBreakerRegistry) {
+		Resilience4JCircuitBreakerFactory resilience4JCircuitBreakerFactory = new Resilience4JCircuitBreakerFactory();
+		resilience4JCircuitBreakerFactory.configureCircuitBreakerRegistry(circuitBreakerRegistry);
+		return resilience4JCircuitBreakerFactory;
+	}
+
+
 
 }
