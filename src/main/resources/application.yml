@@ -33,8 +33,10 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
       waitDurationInOpenState: 2s
-      failureRateThreshold: 50
+      failureRateThreshold: 3
       eventConsumerBufferSize: 10
+      slowCallDurationThreshold: 200ms
+      slowCallRateThreshold: 30
       recordExceptions:
         - org.springframework.web.client.HttpServerErrorException
         - java.io.IOException
