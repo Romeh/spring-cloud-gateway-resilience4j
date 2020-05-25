@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class GatewayFallback {
 
     @GetMapping("/testService")
-    public FallbackResponse getAccount() {
+    public FallbackResponse getFallBackBackendA() {
         FallbackResponse a = new FallbackResponse();
         a.setMsgCode(500);
         a.setMsg("fallBackMsg");
         return a;
     }
 
+
+    @GetMapping("/testInternalServiceError")
+    public FallbackResponse getFallBackBackendB() {
+        FallbackResponse a = new FallbackResponse();
+        a.setMsgCode(500);
+        a.setMsg("fallBackMsg");
+        return a;
+    }
 }

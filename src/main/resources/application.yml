@@ -22,6 +22,12 @@ spring:
             - Path=/testService/**
           filters:
             - RewritePath=/testService/(?<path>.*), /$\{path}
+        - id: test-service-withResilient4j-statusCode
+          uri: http://localhost:8091
+          predicates:
+            - Path=/testInternalServiceError/**
+          filters:
+            - RewritePath=/testInternalServiceError/(?<path>.*), /$\{path}
 
 logging.level.io.github.resilience4j: DEBUG
 
@@ -33,7 +39,7 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
       waitDurationInOpenState: 2s
-      failureRateThreshold: 3
+      failureRateThreshold: 5
       eventConsumerBufferSize: 10
       slowCallDurationThreshold: 200ms
       slowCallRateThreshold: 30
@@ -60,6 +66,7 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 1s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+      recordFailurePredicate: io.github.romeh.services.gateway.HttpInternalServicePredicate
 
 resilience4j.timelimiter:
   time-limiter-aspect-order: 398
